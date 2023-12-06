@@ -13,7 +13,7 @@ const Header = () => {
           mode="normal"
         ></lottie-player>
       </div>
-      <div>
+      <div className="logo-container">
         <h1 className="header-text">PugBot</h1>
         <p className="header-desc">Pawsome Chat Buddy</p>
       </div>
