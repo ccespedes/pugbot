@@ -1,13 +1,13 @@
-import React, { useState, useRef, useMemo } from "react"
-import { nanoid } from "nanoid"
-import OpenAI from "openai"
-import happy from "../assets/pug-happy.png"
-import sad from "../assets/pug-sad.png"
-import cheeky from "../assets/pug-cheeky.png"
-import sendBtn from "../assets/send-btn.svg"
-import loader from "../assets/loader.svg"
-import MessageBubble from "./MessageBubble"
-import Error from "./Error"
+import React, { useState, useRef, useMemo } from 'react'
+import { nanoid } from 'nanoid'
+import OpenAI from 'openai'
+import happy from '../assets/pug-happy.png'
+import sad from '../assets/pug-sad.png'
+import cheeky from '../assets/pug-cheeky.png'
+import sendBtn from '../assets/send-btn.svg'
+import loader from '../assets/loader.svg'
+import MessageBubble from './MessageBubble'
+import Error from './Error'
 
 // import { process } from '../../env'
 
@@ -18,8 +18,8 @@ import Error from "./Error"
 
 const Main = () => {
   const [formData, setFormData] = useState({
-    text: "",
-    language: "happy",
+    text: '',
+    language: 'cheeky',
   })
   const [messageLog, setMessageLog] = useState([])
   const [error, setError] = useState(false)
@@ -42,21 +42,21 @@ const Main = () => {
       {
         id: nanoid(),
         message: formData.text,
-        type: "user",
+        type: 'user',
         isDisplayed: false,
       },
     ])
     fetchReply(formData.text, formData.language)
-    setFormData((prev) => ({ ...prev, text: "" }))
+    setFormData((prev) => ({ ...prev, text: '' }))
     scrollTop()
     setLoading(true)
   }
 
   const messages = [
     {
-      role: "system",
+      role: 'system',
       content:
-        "You are a pug canine with the ability to have a conversation with humans. You will be told which mood you are currently in so that your responses will reflect the given mood.",
+        'You are a pug canine with the ability to have a conversation with humans. You will be told which mood you are currently in so that your responses will reflect the given mood.',
     },
   ]
 
@@ -65,25 +65,35 @@ const Main = () => {
   async function fetchReply(text, language) {
     messageDisplayed()
     messages.push({
-      role: "user",
+      role: 'user',
       content: `You are feeling: ${language} while responding to the following: ${text}`,
     })
     try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: messages,
+      const url = 'https://pugbot.netlify.app/.netlify/functions/fetchAI'
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify(messages),
       })
-      const translation = response.choices[0].message.content
-      messages.push({
-        role: "system",
-        content: translation,
-      })
+      const data = await response.json()
+      console.log(data)
+      // const response = await openai.chat.completions.create({
+      //   model: 'gpt-3.5-turbo',
+      //   messages: messages,
+      // })
+      // const translation = response.choices[0].message.content
+      // messages.push({
+      //   role: 'system',
+      //   content: translation,
+      // })
 
-      setMessageLog((prev) => [
-        ...prev,
-        { id: nanoid(), message: translation, type: "bot", isDisplayed: false },
-      ])
-      setLoading(false)
+      // setMessageLog((prev) => [
+      //   ...prev,
+      //   { id: nanoid(), message: translation, type: 'bot', isDisplayed: false },
+      // ])
+      // setLoading(false)
     } catch (error) {
       console.log(error)
       setError(true)
@@ -103,7 +113,7 @@ const Main = () => {
   }
 
   const messageDisplayed = () => {
-    console.log("messageDisplay")
+    console.log('messageDisplay')
     setMessageLog((prev) =>
       prev.map((message) => ({ ...message, isDisplayed: true }))
     )
@@ -151,7 +161,7 @@ const Main = () => {
               id="happy"
               name="language"
               value="happy"
-              checked={formData.language === "happy"}
+              checked={formData.language === 'happy'}
               onChange={handleChange}
             />
             <img src={happy} alt="Happy Pug" />
@@ -163,7 +173,7 @@ const Main = () => {
               id="sad"
               name="language"
               value="sad"
-              checked={formData.language === "sad"}
+              checked={formData.language === 'sad'}
               onChange={handleChange}
             />
             <img src={sad} alt="Sad Pug" />
@@ -175,7 +185,7 @@ const Main = () => {
               id="cheeky"
               name="language"
               value="cheeky"
-              checked={formData.language === "cheeky"}
+              checked={formData.language === 'cheeky'}
               onChange={handleChange}
             />
             <img src={cheeky} alt="Cheeky Pug" />
