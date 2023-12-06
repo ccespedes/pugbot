@@ -1,6 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react'
 import { nanoid } from 'nanoid'
-import OpenAI from 'openai'
 import happy from '../assets/pug-happy.png'
 import sad from '../assets/pug-sad.png'
 import cheeky from '../assets/pug-cheeky.png'
@@ -8,13 +7,6 @@ import sendBtn from '../assets/send-btn.svg'
 import loader from '../assets/loader.svg'
 import MessageBubble from './MessageBubble'
 import Error from './Error'
-
-// import { process } from '../../env'
-
-// const openai = new OpenAI({
-//   apiKey: process.env.OPENAI_API_KEY,
-//   dangerouslyAllowBrowser: true,
-// })
 
 const Main = () => {
   const [formData, setFormData] = useState({
@@ -78,22 +70,19 @@ const Main = () => {
         body: JSON.stringify(messages),
       })
       const data = await response.json()
+      const translation = data.reply.choices[0].message.content
       console.log(data)
-      // const response = await openai.chat.completions.create({
-      //   model: 'gpt-3.5-turbo',
-      //   messages: messages,
-      // })
-      // const translation = response.choices[0].message.content
-      // messages.push({
-      //   role: 'system',
-      //   content: translation,
-      // })
 
-      // setMessageLog((prev) => [
-      //   ...prev,
-      //   { id: nanoid(), message: translation, type: 'bot', isDisplayed: false },
-      // ])
-      // setLoading(false)
+      messages.push({
+        role: 'system',
+        content: translation,
+      })
+
+      setMessageLog((prev) => [
+        ...prev,
+        { id: nanoid(), message: translation, type: 'bot', isDisplayed: false },
+      ])
+      setLoading(false)
     } catch (error) {
       console.log(error)
       setError(true)
