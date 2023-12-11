@@ -39,7 +39,7 @@ body {
 }
 
 svg {
-  fill: "#9064ff";
+  fill: '#9064ff';
   stroke-width: 5;
 }
 
@@ -78,13 +78,14 @@ button:hover {
 
 /* === HEADER ===  */
 header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 390px;
   max-height: 115px;
   height: 16svh;
-  background-image: url("./assets/pug-bg-01.jpg");
+  background-image: url('./assets/pug-bg-01.jpg');
   background-size: 100%;
   background-position: bottom;
   border-radius: 20px 20px 0 0;
@@ -97,7 +98,7 @@ header {
 }
 
 .logo-container {
-  margin-right: 2em;
+  margin: 0 2em 0 0;
 }
 
 .header-text {
@@ -111,11 +112,66 @@ header {
 }
 
 .header-desc {
-  font-size: 0.825em;
-  width: 144px;
+  font-size: 0.8em;
   padding: 0px;
   margin: 0;
   font-weight: 600;
+}
+
+.start-over {
+  position: absolute;
+  right: 2.5em;
+  top: 11.5em;
+  font-size: 0.5em;
+  text-transform: uppercase;
+  margin: 0.5em 0 0 0;
+  background-color: #3e3e3e;
+  padding: 0.2em 1em;
+  border-radius: 0.5em;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.start-over:hover {
+  color: #3e3e3e;
+  background-color: #b4c1b2;
+}
+
+.thought-cloud-container {
+  position: absolute;
+  left: 20em;
+  top: -1.5em;
+  font-size: 0.7em;
+  color: #262626;
+  background: #ffffff;
+  padding: 1.2em 1em;
+  border-radius: 0.8em;
+  transition: all 0.5s ease-in-out;
+}
+
+.thought-cloud {
+  position: relative;
+  background: #ffffff;
+  color: #262626;
+  border-radius: 0.4em;
+  font-weight: 600;
+  word-spacing: -2px;
+}
+
+.thought-cloud:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 18px solid transparent;
+  border-right-color: #ffffff;
+  border-left: 0;
+  border-bottom: 0;
+  margin-top: -5.5px;
+  margin-left: -27px;
 }
 
 /* === MAIN ===  */
@@ -220,7 +276,7 @@ button {
   border: none;
 }
 
-/* === LANGUAGE ===  */
+/* === MOOD ===  */
 form {
   position: absolute;
   bottom: 20px;
@@ -229,20 +285,20 @@ form {
   border-radius: 20px 20px 0 0;
   box-shadow: 0px -3px 20px #111111;
 }
-.language-group {
+.mood-group {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
-[type="radio"] {
+[type='radio'] {
   position: absolute;
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-[type="radio"] + img {
+[type='radio'] + img {
   outline: 2px solid transparent;
   opacity: 60%;
   cursor: pointer;
@@ -250,7 +306,7 @@ form {
   height: 40px;
 }
 
-[type="radio"]:checked + img {
+[type='radio']:checked + img {
   outline: 2px solid var(--fourthary);
   padding: 0.4em;
   opacity: 1;
@@ -271,7 +327,7 @@ form {
 }
 
 .blinking-cursor::after {
-  content: "|";
+  content: '|';
   font-weight: 700;
   display: inline-block;
   animation: cursor-blink 0.5s steps(2) infinite;
