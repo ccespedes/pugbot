@@ -212,7 +212,7 @@ const Main = () => {
     ))
   }, [messageLog])
 
-  if (app) {
+  if (dbLoaded) {
     return (
       <>
         <Header startOver={startOver} mood={formData.mood} />
