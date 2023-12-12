@@ -46,7 +46,7 @@ const Main = () => {
     const data = await response.json()
     console.log('data: ', data)
 
-    console.log('data is in', data.databaseUrl)
+    console.log('data is in')
     const appSettings = {
       databaseUrl: data.databaseUrl,
       projectId: data.projectId,
@@ -56,26 +56,9 @@ const Main = () => {
     database = getDatabase(app)
     conversationInDb = ref(database)
     setDbloaded(true)
-    get(conversationInDb).then(async (snapshot) => {
-      if (snapshot.exists()) {
-        console.log(Object.values(snapshot.val()))
-        setMessageLog((prev) =>
-          Object.values(snapshot.val()).map((message) => ({
-            id: nanoid(),
-            message: message.content,
-            type: message.role,
-            isDisplayed: true,
-          }))
-        )
-        console.log('messageLog', messageLog)
-      }
-    })
-    setDbloaded(true)
   }
 
   setupDb()
-
-  console.log('Main rendered')
 
   const handleChange = (e) => {
     if (e.target.type === 'radio') {
@@ -111,25 +94,27 @@ const Main = () => {
     setLoading(true)
   }
 
-  // useEffect(() => {
-  //   function renderConversationFromDb() {
-  //     get(conversationInDb).then(async (snapshot) => {
-  //       if (snapshot.exists()) {
-  //         console.log(Object.values(snapshot.val()))
-  //         setMessageLog((prev) =>
-  //           Object.values(snapshot.val()).map((message) => ({
-  //             id: nanoid(),
-  //             message: message.content,
-  //             type: message.role,
-  //             isDisplayed: true,
-  //           }))
-  //         )
-  //         console.log('messageLog', messageLog)
-  //       }
-  //     })
-  //   }
-  //   renderConversationFromDb()
-  // }, [])
+  useEffect(() => {
+    function renderConversationFromDb() {
+      if (dbLoaded) {
+        get(conversationInDb).then(async (snapshot) => {
+          if (snapshot.exists()) {
+            console.log(Object.values(snapshot.val()))
+            setMessageLog((prev) =>
+              Object.values(snapshot.val()).map((message) => ({
+                id: nanoid(),
+                message: message.content,
+                type: message.role,
+                isDisplayed: true,
+              }))
+            )
+            console.log('messageLog', messageLog)
+          }
+        })
+      }
+    }
+    renderConversationFromDb()
+  }, [dbLoaded])
 
   const instructionObj = {
     role: 'system',
