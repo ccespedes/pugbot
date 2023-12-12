@@ -55,9 +55,9 @@ const Main = () => {
     app = initializeApp(appSettings)
     database = getDatabase(app)
     conversationInDb = ref(database)
+    renderConversationFromDb()
     setDbloaded(true)
   }
-
   setupDb()
 
   const handleChange = (e) => {
@@ -94,27 +94,27 @@ const Main = () => {
     setLoading(true)
   }
 
-  useEffect(() => {
-    function renderConversationFromDb() {
-      if (dbLoaded) {
-        get(conversationInDb).then(async (snapshot) => {
-          if (snapshot.exists()) {
-            console.log(Object.values(snapshot.val()))
-            setMessageLog((prev) =>
-              Object.values(snapshot.val()).map((message) => ({
-                id: nanoid(),
-                message: message.content,
-                type: message.role,
-                isDisplayed: true,
-              }))
-            )
-            console.log('messageLog', messageLog)
-          }
-        })
-      }
+  // useEffect(() => {
+  function renderConversationFromDb() {
+    if (dbLoaded) {
+      get(conversationInDb).then(async (snapshot) => {
+        if (snapshot.exists()) {
+          console.log(Object.values(snapshot.val()))
+          setMessageLog((prev) =>
+            Object.values(snapshot.val()).map((message) => ({
+              id: nanoid(),
+              message: message.content,
+              type: message.role,
+              isDisplayed: true,
+            }))
+          )
+          console.log('messageLog', messageLog)
+        }
+      })
     }
-    renderConversationFromDb()
-  }, [dbLoaded])
+  }
+  // renderConversationFromDb()
+  // }, [dbLoaded])
 
   const instructionObj = {
     role: 'system',
