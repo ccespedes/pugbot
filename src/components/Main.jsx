@@ -22,6 +22,7 @@ const Main = () => {
   const [error, setError] = useState(false)
   const [errorMsg, setErrorMsg] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [dbLoaded, setDbloaded] = useState(false)
   const [conversationInDb, setConversationInDb] = useState('')
   const [greeting, setGreeting] = useState(
     `I'm your ${formData.mood} pugbot chat buddy, type your text and send!`
