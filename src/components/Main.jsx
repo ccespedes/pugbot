@@ -13,34 +13,6 @@ import Header from './Header'
 import MessageBubble from './MessageBubble'
 import Error from './Error'
 
-let app
-let database
-let conversationInDb
-
-async function setupDb() {
-  const url = 'https://pugbot.netlify.app/.netlify/functions/firebase'
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/plain',
-    },
-    body: JSON.stringify('boink'),
-  })
-  const data = response.json()
-  console.log(data)
-
-  const appSettings = {
-    databaseUrl: data.databaseUrl,
-    projectId: data.projectId,
-  }
-
-  app = initializeApp(appSettings)
-  database = getDatabase(app)
-  conversationInDb = ref(database)
-}
-
-setupDb()
-
 const Main = () => {
   const [formData, setFormData] = useState({
     text: '',
@@ -55,6 +27,34 @@ const Main = () => {
   )
 
   const messageContainerRef = useRef(null)
+
+  let app
+  let database
+  let conversationInDb
+
+  async function setupDb() {
+    const url = 'https://pugbot.netlify.app/.netlify/functions/firebase'
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: JSON.stringify('boink'),
+    })
+    const data = response.json()
+    console.log(data)
+
+    const appSettings = {
+      databaseUrl: data.databaseUrl,
+      projectId: data.projectId,
+    }
+
+    app = initializeApp(appSettings)
+    database = getDatabase(app)
+    conversationInDb = ref(database)
+  }
+
+  setupDb()
 
   const handleChange = (e) => {
     if (e.target.type === 'radio') {
