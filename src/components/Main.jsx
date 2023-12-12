@@ -162,8 +162,8 @@ const Main = () => {
           })
           if (response.ok) {
             const data = await response.json()
-            console.log('php response', data)
-            const translation = data.choices[0].message.content
+            console.log('nf funct res', data)
+            const translation = data.reply.choices[0].message.content
             push(conversationInDb, {
               role: 'system',
               content: translation,
