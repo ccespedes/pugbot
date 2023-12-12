@@ -158,7 +158,7 @@ const Main = () => {
             headers: {
               'Content-Type': 'text/plain',
             },
-            body: JSON.stringify(messages),
+            body: JSON.stringify(conversationArr),
           })
           if (response.ok) {
             const data = await response.json()
@@ -308,7 +308,7 @@ const Main = () => {
       </>
     )
   } else {
-    return <div>Loading...</div>
+    return <img className="svg" src={loader} />
   }
 }
 
