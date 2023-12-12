@@ -13,14 +13,28 @@ import Header from './Header'
 import MessageBubble from './MessageBubble'
 import Error from './Error'
 
-const appSettings = {
-  databaseUrl: process.env.databaseUrl,
-  projectId: process.env.projectId,
+async function setupDb() {
+  const url = 'https://pugbot.netlify.app/.netlify/functions/firebase'
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+    body: JSON.stringify(messages),
+  })
+  console.log(response)
+
+  const appSettings = {
+    databaseUrl: process.env.databaseUrl,
+    projectId: process.env.projectId,
+  }
+
+  const app = initializeApp(appSettings)
+  const database = getDatabase(app)
+  const conversationInDb = ref(database)
 }
 
-const app = initializeApp(appSettings)
-const database = getDatabase(app)
-const conversationInDb = ref(database)
+setupDb()
 
 const Main = () => {
   const [formData, setFormData] = useState({
