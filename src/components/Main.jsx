@@ -46,7 +46,7 @@ const Main = () => {
     const data = await response.json()
     console.log('data: ', data)
 
-    console.log('data is in')
+    console.log('data is in', data.databaseUrl)
     const appSettings = {
       databaseUrl: data.databaseUrl,
       projectId: data.projectId,
@@ -70,9 +70,12 @@ const Main = () => {
         console.log('messageLog', messageLog)
       }
     })
+    setDbloaded(true)
   }
 
   setupDb()
+
+  console.log('Main rendered')
 
   const handleChange = (e) => {
     if (e.target.type === 'radio') {
