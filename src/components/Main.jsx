@@ -140,12 +140,13 @@ const Main = () => {
   }
 
   function fetchReply(text, mood) {
+    console.log('fetchReply..')
     messageDisplayed()
+    console.log(conversationInDb)
     push(conversationInDb, {
       role: 'user',
       content: `${text}`,
     })
-    console.log('conversationInDb')
     get(conversationInDb).then(async (snapshot) => {
       if (snapshot.exists()) {
         const conversationArr = Object.values(snapshot.val())
@@ -210,7 +211,6 @@ const Main = () => {
   }
 
   const messageDisplayed = () => {
-    console.log('messageDisplay')
     setMessageLog((prev) =>
       prev.map((message) => ({ ...message, isDisplayed: true }))
     )
