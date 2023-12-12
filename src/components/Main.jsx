@@ -42,9 +42,11 @@ const Main = () => {
       },
       body: JSON.stringify('boink'),
     })
-    const data = response.json()
-    console.log(data)
+    console.log('wait for data')
+    const data = await response.json()
+    console.log('data: ', data)
 
+    console.log('data is in')
     const appSettings = {
       databaseUrl: data.databaseUrl,
       projectId: data.projectId,
