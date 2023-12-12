@@ -38,7 +38,6 @@ const Main = () => {
         headers: {
           'Content-Type': 'text/plain',
         },
-        body: JSON.stringify('boink'),
       })
       const data = await response.json()
       const appSettings = {
