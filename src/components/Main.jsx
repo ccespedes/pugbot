@@ -13,6 +13,8 @@ import Header from './Header'
 import MessageBubble from './MessageBubble'
 import Error from './Error'
 
+let app
+
 async function setupDb() {
   const url = 'https://pugbot.netlify.app/.netlify/functions/firebase'
   const response = await fetch(url, {
@@ -30,7 +32,7 @@ async function setupDb() {
     projectId: data.projectId,
   }
 
-  const app = initializeApp(appSettings)
+  app = initializeApp(appSettings)
   const database = getDatabase(app)
   const conversationInDb = ref(database)
 }
