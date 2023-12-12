@@ -22,6 +22,7 @@ const Main = () => {
   const [error, setError] = useState(false)
   const [errorMsg, setErrorMsg] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [dbLoaded, setDbloaded] = useState(false)
   const [greeting, setGreeting] = useState(
     `I'm your ${formData.mood} pugbot chat buddy, type your text and send!`
   )
@@ -52,6 +53,7 @@ const Main = () => {
     app = initializeApp(appSettings)
     database = getDatabase(app)
     conversationInDb = ref(database)
+    setDbloaded(true)
   }
 
   setupDb()
@@ -92,20 +94,22 @@ const Main = () => {
 
   useEffect(() => {
     function renderConversationFromDb() {
-      get(conversationInDb).then(async (snapshot) => {
-        if (snapshot.exists()) {
-          console.log(Object.values(snapshot.val()))
-          setMessageLog((prev) =>
-            Object.values(snapshot.val()).map((message) => ({
-              id: nanoid(),
-              message: message.content,
-              type: message.role,
-              isDisplayed: true,
-            }))
-          )
-          console.log('messageLog', messageLog)
-        }
-      })
+      if (dbLoaded) {
+        get(conversationInDb).then(async (snapshot) => {
+          if (snapshot.exists()) {
+            console.log(Object.values(snapshot.val()))
+            setMessageLog((prev) =>
+              Object.values(snapshot.val()).map((message) => ({
+                id: nanoid(),
+                message: message.content,
+                type: message.role,
+                isDisplayed: true,
+              }))
+            )
+            console.log('messageLog', messageLog)
+          }
+        })
+      }
     }
     renderConversationFromDb()
   }, [])
