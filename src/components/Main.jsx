@@ -14,7 +14,7 @@ import MessageBubble from './MessageBubble'
 import Error from './Error'
 
 async function setupDb() {
-  const url = 'https://pugbot.netlify.app/.netlify/functions/firebase'
+  const url = 'https://pugbot.netlify.app/.netlify/functions/fetchAI/firebase'
   const response = await fetch(url)
   console.log(response)
 
