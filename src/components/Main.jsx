@@ -20,7 +20,7 @@ async function setupDb() {
     headers: {
       'Content-Type': 'text/plain',
     },
-    body: JSON.stringify('messages'),
+    body: JSON.stringify('boink'),
   })
   const data = response.json()
   console.log(data)
@@ -202,81 +202,85 @@ const Main = () => {
     ))
   }, [messageLog])
 
-  return (
-    <>
-      <Header startOver={startOver} mood={formData.mood} />
-      <main>
-        <div id="error">{error && errorMsg}</div>
-        <form onSubmit={handleSubmit} id="mood">
-          <div className="input-container mb">
-            <input
-              id="translate-text"
-              type="text"
-              autoFocus="autofocus"
-              autoComplete="off"
-              name="text"
-              value={formData.text}
-              onChange={handleChange}
-              required
-            ></input>
-            <button>
-              <img className="svg" src={sendBtn} />
-            </button>
-          </div>
-
-          <div className="mood-group mb">
-            <label>
+  if (app) {
+    return (
+      <>
+        <Header startOver={startOver} mood={formData.mood} />
+        <main>
+          <div id="error">{error && errorMsg}</div>
+          <form onSubmit={handleSubmit} id="mood">
+            <div className="input-container mb">
               <input
-                type="radio"
-                id="happy"
-                name="mood"
-                value="happy"
-                checked={formData.mood === 'happy'}
+                id="translate-text"
+                type="text"
+                autoFocus="autofocus"
+                autoComplete="off"
+                name="text"
+                value={formData.text}
                 onChange={handleChange}
-              />
-              <img src={happy} alt="Happy Pug" />
-            </label>
+                required
+              ></input>
+              <button>
+                <img className="svg" src={sendBtn} />
+              </button>
+            </div>
 
-            <label>
-              <input
-                type="radio"
-                id="sad"
-                name="mood"
-                value="sad"
-                checked={formData.mood === 'sad'}
-                onChange={handleChange}
-              />
-              <img src={sad} alt="Sad Pug" />
-            </label>
+            <div className="mood-group mb">
+              <label>
+                <input
+                  type="radio"
+                  id="happy"
+                  name="mood"
+                  value="happy"
+                  checked={formData.mood === 'happy'}
+                  onChange={handleChange}
+                />
+                <img src={happy} alt="Happy Pug" />
+              </label>
 
-            <label>
-              <input
-                type="radio"
-                id="cheeky"
-                name="mood"
-                value="cheeky"
-                checked={formData.mood === 'cheeky'}
-                onChange={handleChange}
-              />
-              <img src={cheeky} alt="Mischievous Pug" />
-            </label>
-          </div>
-        </form>
+              <label>
+                <input
+                  type="radio"
+                  id="sad"
+                  name="mood"
+                  value="sad"
+                  checked={formData.mood === 'sad'}
+                  onChange={handleChange}
+                />
+                <img src={sad} alt="Sad Pug" />
+              </label>
 
-        <div className="message-container" ref={messageContainerRef}>
-          <div id="setup">
-            <div className="message message-bot">{greeting}</div>
+              <label>
+                <input
+                  type="radio"
+                  id="cheeky"
+                  name="mood"
+                  value="cheeky"
+                  checked={formData.mood === 'cheeky'}
+                  onChange={handleChange}
+                />
+                <img src={cheeky} alt="Mischievous Pug" />
+              </label>
+            </div>
+          </form>
 
-            <div id="chat">{chatMessages}</div>
+          <div className="message-container" ref={messageContainerRef}>
+            <div id="setup">
+              <div className="message message-bot">{greeting}</div>
 
-            <div id="loading">
-              {loading && <img className="svg" src={loader} />}
+              <div id="chat">{chatMessages}</div>
+
+              <div id="loading">
+                {loading && <img className="svg" src={loader} />}
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-    </>
-  )
+        </main>
+      </>
+    )
+  } else {
+    return <div>Loading...</div>
+  }
 }
 
 export default Main
