@@ -23,6 +23,7 @@ const Main = () => {
   const [errorMsg, setErrorMsg] = useState(null)
   const [loading, setLoading] = useState(false)
   const [dbLoaded, setDbloaded] = useState(false)
+  const [conversationInDb, setConversationInDb] = useState('')
   const [greeting, setGreeting] = useState(
     `I'm your ${formData.mood} pugbot chat buddy, type your text and send!`
   )
@@ -31,7 +32,6 @@ const Main = () => {
 
   let app
   let database
-  let conversationInDb
 
   useEffect(() => {
     async function setupDb() {
@@ -55,7 +55,7 @@ const Main = () => {
 
       app = initializeApp(appSettings)
       database = getDatabase(app)
-      conversationInDb = ref(database)
+      setConversationInDb(ref(database))
 
       get(conversationInDb).then(async (snapshot) => {
         if (snapshot.exists()) {
