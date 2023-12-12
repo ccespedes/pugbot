@@ -1,10 +1,10 @@
-exports.handler = async function (event, context) {
-  const value = process.env.DATABASE_URL
+const databaseUrl = process.env.DATABASE_URL
 
+const handler = async (event) => {
   return {
     statusCode: 200,
-    body: JSON.stringify({
-      message: `Value of MY_IMPORTANT_VARIABLE is ${value}.`,
-    }),
+    body: JSON.stringify({ reply: response }),
   }
 }
+
+module.exports = { handler }
