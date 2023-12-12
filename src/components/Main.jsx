@@ -57,7 +57,7 @@ const Main = () => {
       database = getDatabase(app)
       setConversationInDb(ref(database))
 
-      get(conversationInDb).then(async (snapshot) => {
+      get(ref(database)).then(async (snapshot) => {
         if (snapshot.exists()) {
           console.log(Object.values(snapshot.val()))
           setMessageLog((prev) =>
