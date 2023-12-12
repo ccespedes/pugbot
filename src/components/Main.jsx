@@ -112,24 +112,24 @@ const Main = () => {
   }
 
   // useEffect(() => {
-  function renderConversationFromDb() {
-    if (dbLoaded) {
-      get(conversationInDb).then(async (snapshot) => {
-        if (snapshot.exists()) {
-          console.log(Object.values(snapshot.val()))
-          setMessageLog((prev) =>
-            Object.values(snapshot.val()).map((message) => ({
-              id: nanoid(),
-              message: message.content,
-              type: message.role,
-              isDisplayed: true,
-            }))
-          )
-          console.log('messageLog', messageLog)
-        }
-      })
-    }
-  }
+  // function renderConversationFromDb() {
+  //   if (dbLoaded) {
+  //     get(conversationInDb).then(async (snapshot) => {
+  //       if (snapshot.exists()) {
+  //         console.log(Object.values(snapshot.val()))
+  //         setMessageLog((prev) =>
+  //           Object.values(snapshot.val()).map((message) => ({
+  //             id: nanoid(),
+  //             message: message.content,
+  //             type: message.role,
+  //             isDisplayed: true,
+  //           }))
+  //         )
+  //         console.log('messageLog', messageLog)
+  //       }
+  //     })
+  //   }
+  // }
   // renderConversationFromDb()
   // }, [dbLoaded])
 
@@ -144,6 +144,7 @@ const Main = () => {
       role: 'user',
       content: `${text}`,
     })
+    console.log('conversationInDb')
     get(conversationInDb).then(async (snapshot) => {
       if (snapshot.exists()) {
         const conversationArr = Object.values(snapshot.val())
