@@ -47,7 +47,7 @@ const Main = () => {
       const data = await response.json()
       console.log('data: ', data)
 
-      console.log('data is in')
+      console.log('data is in', data.databaseUrl)
       const appSettings = {
         databaseUrl: data.databaseUrl,
         projectId: data.projectId,
@@ -56,7 +56,22 @@ const Main = () => {
       app = initializeApp(appSettings)
       database = getDatabase(app)
       conversationInDb = ref(database)
-      renderConversationFromDb()
+
+      get(conversationInDb).then(async (snapshot) => {
+        if (snapshot.exists()) {
+          console.log(Object.values(snapshot.val()))
+          setMessageLog((prev) =>
+            Object.values(snapshot.val()).map((message) => ({
+              id: nanoid(),
+              message: message.content,
+              type: message.role,
+              isDisplayed: true,
+            }))
+          )
+          console.log('messageLog', messageLog)
+        }
+      })
+
       setDbloaded(true)
     }
     setupDb()
