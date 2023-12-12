@@ -95,6 +95,7 @@ const Main = () => {
   }
 
   const handleSubmit = (e) => {
+    console.log('handleSubmit')
     e.preventDefault()
     setMessageLog((prev) => [
       ...prev,
