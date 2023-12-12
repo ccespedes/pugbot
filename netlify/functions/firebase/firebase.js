@@ -14,8 +14,8 @@ const handler = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      databaseUrl: databaseUrl,
-      projectId: projectId,
+      databaseUrl,
+      projectId,
     }),
   }
 }
