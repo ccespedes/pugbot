@@ -15,12 +15,7 @@ import Error from './Error'
 
 async function setupDb() {
   const url = 'https://pugbot.netlify.app/.netlify/functions/firebase'
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/plain',
-    },
-  })
+  const response = await fetch(url)
   console.log(response)
 
   const appSettings = {
