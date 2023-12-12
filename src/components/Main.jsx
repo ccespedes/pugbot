@@ -20,7 +20,6 @@ async function setupDb() {
     headers: {
       'Content-Type': 'text/plain',
     },
-    body: JSON.stringify(messages),
   })
   console.log(response)
 
