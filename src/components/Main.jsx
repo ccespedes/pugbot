@@ -14,8 +14,8 @@ import MessageBubble from './MessageBubble'
 import Error from './Error'
 
 const appSettings = {
-  databaseUrl: import.meta.env.VITE_REACT_APP_DATABASE_URL,
-  projectId: import.meta.env.VITE_REACT_APP_PROJECT_ID,
+  databaseUrl: process.env.databaseUrl,
+  projectId: process.env.projectId,
 }
 
 const app = initializeApp(appSettings)
