@@ -33,32 +33,34 @@ const Main = () => {
   let database
   let conversationInDb
 
-  async function setupDb() {
-    const url = 'https://pugbot.netlify.app/.netlify/functions/firebase'
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-      body: JSON.stringify('boink'),
-    })
-    console.log('wait for data')
-    const data = await response.json()
-    console.log('data: ', data)
+  useEffect(() => {
+    async function setupDb() {
+      const url = 'https://pugbot.netlify.app/.netlify/functions/firebase'
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: JSON.stringify('boink'),
+      })
+      console.log('wait for data')
+      const data = await response.json()
+      console.log('data: ', data)
 
-    console.log('data is in')
-    const appSettings = {
-      databaseUrl: data.databaseUrl,
-      projectId: data.projectId,
+      console.log('data is in')
+      const appSettings = {
+        databaseUrl: data.databaseUrl,
+        projectId: data.projectId,
+      }
+
+      app = initializeApp(appSettings)
+      database = getDatabase(app)
+      conversationInDb = ref(database)
+      renderConversationFromDb()
+      setDbloaded(true)
     }
-
-    app = initializeApp(appSettings)
-    database = getDatabase(app)
-    conversationInDb = ref(database)
-    renderConversationFromDb()
-    setDbloaded(true)
-  }
-  setupDb()
+    setupDb()
+  }, [])
 
   const handleChange = (e) => {
     if (e.target.type === 'radio') {
