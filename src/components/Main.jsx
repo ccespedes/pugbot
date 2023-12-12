@@ -22,16 +22,12 @@ const Main = () => {
   const [error, setError] = useState(false)
   const [errorMsg, setErrorMsg] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [dbLoaded, setDbloaded] = useState(false)
   const [conversationInDb, setConversationInDb] = useState('')
   const [greeting, setGreeting] = useState(
     `I'm your ${formData.mood} pugbot chat buddy, type your text and send!`
   )
 
   const messageContainerRef = useRef(null)
-
-  let app
-  let database
 
   useEffect(() => {
     async function setupDb() {
@@ -43,23 +39,18 @@ const Main = () => {
         },
         body: JSON.stringify('boink'),
       })
-      console.log('wait for data')
       const data = await response.json()
-      console.log('data: ', data)
-
-      console.log('data is in', data.databaseUrl)
       const appSettings = {
         databaseUrl: data.databaseUrl,
         projectId: data.projectId,
       }
 
-      app = initializeApp(appSettings)
-      database = getDatabase(app)
+      const app = initializeApp(appSettings)
+      const database = getDatabase(app)
       setConversationInDb(ref(database))
 
       get(ref(database)).then(async (snapshot) => {
         if (snapshot.exists()) {
-          console.log(Object.values(snapshot.val()))
           setMessageLog((prev) =>
             Object.values(snapshot.val()).map((message) => ({
               id: nanoid(),
@@ -68,10 +59,8 @@ const Main = () => {
               isDisplayed: true,
             }))
           )
-          console.log('messageLog', messageLog)
         }
       })
-
       setDbloaded(true)
     }
     setupDb()
@@ -95,7 +84,6 @@ const Main = () => {
   }
 
   const handleSubmit = (e) => {
-    console.log('handleSubmit')
     e.preventDefault()
     setMessageLog((prev) => [
       ...prev,
@@ -112,37 +100,13 @@ const Main = () => {
     setLoading(true)
   }
 
-  // useEffect(() => {
-  // function renderConversationFromDb() {
-  //   if (dbLoaded) {
-  //     get(conversationInDb).then(async (snapshot) => {
-  //       if (snapshot.exists()) {
-  //         console.log(Object.values(snapshot.val()))
-  //         setMessageLog((prev) =>
-  //           Object.values(snapshot.val()).map((message) => ({
-  //             id: nanoid(),
-  //             message: message.content,
-  //             type: message.role,
-  //             isDisplayed: true,
-  //           }))
-  //         )
-  //         console.log('messageLog', messageLog)
-  //       }
-  //     })
-  //   }
-  // }
-  // renderConversationFromDb()
-  // }, [dbLoaded])
-
   const instructionObj = {
     role: 'system',
     content: `You are a ${formData.mood} pug canine with the ability to have a conversation with humans.`,
   }
 
   function fetchReply(text, mood) {
-    console.log('fetchReply..')
     messageDisplayed()
-    console.log(conversationInDb)
     push(conversationInDb, {
       role: 'user',
       content: `${text}`,
@@ -162,7 +126,6 @@ const Main = () => {
           })
           if (response.ok) {
             const data = await response.json()
-            console.log('nf funct res', data)
             const translation = data.reply.choices[0].message.content
             push(conversationInDb, {
               role: 'system',
@@ -180,17 +143,22 @@ const Main = () => {
             setLoading(false)
           } else {
             console.error('Failed to fetch data:', response.statusText)
+            setError(true)
+            setErrorMsg(
+              <Error dismissError={dismissError} errorMessage={`${error}`} />
+            )
           }
-          ////////// end php fetchAI
         } catch (error) {
           setError(true)
-          console.log(error)
           setErrorMsg(
             <Error dismissError={dismissError} errorMessage={`${error}`} />
           )
         }
       } else {
-        console.log('no data available')
+        setError(true)
+        setErrorMsg(
+          <Error dismissError={dismissError} errorMessage={`${error}`} />
+        )
       }
     })
   }
@@ -200,7 +168,6 @@ const Main = () => {
   }
 
   const startOver = () => {
-    console.log('start over')
     remove(conversationInDb)
     setMessageLog([])
   }
