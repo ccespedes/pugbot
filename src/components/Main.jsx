@@ -114,7 +114,7 @@ const Main = () => {
       }
     }
     renderConversationFromDb()
-  }, [])
+  }, [dbLoaded])
 
   const instructionObj = {
     role: 'system',
